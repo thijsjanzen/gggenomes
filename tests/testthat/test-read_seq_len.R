@@ -15,7 +15,7 @@ test_that("get seq len from gff", {
   expect_equal(data.frame(read_seq_len("../data/seq-len/sequence.gff3")), expected_gff)
 })
 
-expected_gb <- mutate(expected_gff, seq_id = str_replace(str_remove(seq_id,".1"),"U","PMU"))
+expected_gb <- mutate(expected_gff, seq_id = str_replace(str_remove(seq_id, ".1"), "U", "PMU"))
 
 test_that("get seq len from gb", {
   expect_equal(data.frame(read_seq_len("../data/seq-len/sequence.gb")), expected_gb)

@@ -249,7 +249,7 @@ pull_track.gggenomes_layout <- function(.x, .track_id = 1, ..., .track_type = NU
 vars_track <- function(
     x, track_id, track_type = c("seqs", "feats", "links"),
     ignore = NULL) {
-  track_type <- match_arg(track_type, several.ok = T)
+  track_type <- match_arg(track_type, several.ok = TRUE)
   track_ids <- track_ids(x, track_type)
 
   # only ignore in integer position context

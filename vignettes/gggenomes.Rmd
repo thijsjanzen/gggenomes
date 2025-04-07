@@ -55,7 +55,7 @@ l0 <- tibble::tibble(
   end2 = c(300, 430)
 )
 
-p <- gggenomes(genes=g0, seqs=s0, links=l0)
+p <- gggenomes(genes = g0, seqs = s0, links = l0)
 p + 
   geom_seq() +         # draw contig/chromosome lines
   geom_seq_label() +   # label each sequence 
@@ -80,10 +80,10 @@ gggenomes supports an arbitrary number of feature and link tracks within the sam
 data(package="gggenomes")
 
 p <- gggenomes(
-  genes=emale_genes,  # a gene track, added as first feat track
-  seqs=emale_seqs,    # a seq track
-  feats=list(emale_tirs, emale_ngaros),  # multiple feat tracks
-  links=emale_ava     # a link track
+  genes = emale_genes,  # a gene track, added as first feat track
+  seqs = emale_seqs,    # a seq track
+  feats = list(emale_tirs, emale_ngaros),  # multiple feat tracks
+  links = emale_ava     # a link track
 )
 
 # inspect the tracks of the plot
@@ -95,7 +95,7 @@ p +
   geom_gene() +  # the first feat track filtered for geneish feats: CDS, mRNA, ..
   geom_feat() +  # the first feat track not named "genes", here emale_tirs
   # use an extra feat track by name
-  geom_feat(data=feats(emale_ngaros), color="plum3")
+  geom_feat(data = feats(emale_ngaros), color = "plum3")
 ```
 
 # One layout to rule them all

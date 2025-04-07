@@ -154,7 +154,10 @@ focus <- function(
   x$data$orig_links <- purrr::map(x$data$orig_links, focus_links, s, bin_id)
 
   # rename seqs/bins to loci
-  s <- mutate(s, bin_id = .data[[bin_id]], orig_seq_id = .data$seq_id, seq_id = .data$locus_id)
+  s <- mutate(s,
+              bin_id = .data[[bin_id]],
+              orig_seq_id = .data$seq_id,
+              seq_id = .data$locus_id)
 
   if (FALSE) { # any(duplicated(s$seq_id))){
     # NOTE: currently, this would create a clone of the sequence - duplicating
@@ -177,10 +180,16 @@ focus <- function(
 #' @param .locus_track The name of the new track containing the identified loci.
 #' @return A gggenomes object with the new loci track added
 #' @describeIn focus Identify regions of interest and add them as new feature track
-locate <- function(x, ..., .track_id = 2, .max_dist = 10e3, .expand = 5e3,
-                   .locus_id = str_glue("{seq_id}_lc{row_number()}"), .locus_id_group = .data$seq_id,
+locate <- function(x, ...,
+                   .track_id = 2,
+                   .max_dist = 10e3,
+                   .expand = 5e3,
+                   .locus_id = str_glue("{seq_id}_lc{row_number()}"),
+                   .locus_id_group = .data$seq_id,
                    .locus_bin = c("bin", "seq", "locus"),
-                   .locus_score = n(), .locus_filter = TRUE, .locus_track = "loci") {
+                   .locus_score = n(),
+                   .locus_filter = TRUE,
+                   .locus_track = "loci") {
   loci <- locate_impl(x, ...,
     .track_id = {{ .track_id }}, .max_dist = .max_dist,
     .expand = .expand, .locus_id = {{ .locus_id }},
@@ -198,10 +207,16 @@ locate <- function(x, ..., .track_id = 2, .max_dist = 10e3, .expand = 5e3,
 }
 
 locate_impl <- function(
-    x, ..., .track_id = 2, .max_dist = 10e3, .expand = 5e3,
-    .locus_id = str_glue("{seq_id}_lc{row_number()}"), .locus_id_group = .data$seq_id,
+    x, ...,
+    .track_id = 2,
+    .max_dist = 10e3,
+    .expand = 5e3,
+    .locus_id = str_glue("{seq_id}_lc{row_number()}"),
+    .locus_id_group = .data$seq_id,
     .locus_bin = c("bin", "seq", "locus"),
-    .locus_score = n(), .locus_filter = TRUE, .loci = NULL) {
+    .locus_score = n(),
+    .locus_filter = TRUE,
+    .loci = NULL) {
   if (length(.expand == 1)) .expand <- c(.expand, .expand)
   bin_id <- paste0(match.arg(.locus_bin), "_id")
 
@@ -223,8 +238,11 @@ locate_impl <- function(
 
   loci <- targets %>%
     compute_loci(
-      max_dist = .max_dist, locus_score = {{ .locus_score }}, locus_filter = {{ .locus_filter }},
-      locus_id = {{ .locus_id }}, locus_id_group = {{ .locus_id_group }}
+      max_dist = .max_dist,
+      locus_score = {{ .locus_score }},
+      locus_filter = {{ .locus_filter }},
+      locus_id = {{ .locus_id }},
+      locus_id_group = {{ .locus_id_group }}
     ) %>%
     arrange(.data$locus_id) %>%
     mutate(
@@ -252,10 +270,15 @@ add_feat_focus_scaffold <- function(track, seqs) {
     ungroup() %>%
     select(
       "seq_id", "bin_id", "locus_id", "y",
-      .seq_strand = "strand", .seq_x = "x", .seq_start = "start", .seq_end = "end"
+      .seq_strand = "strand",
+      .seq_x = "x",
+      .seq_start = "start",
+      .seq_end = "end"
     )
 
-  inner_join(track, scaffold, by = shared_names(track, "seq_id", "bin_id", "locus_id"))
+  inner_join(track,
+             scaffold,
+             by = shared_names(track, "seq_id", "bin_id", "locus_id"))
 }
 
 focus_links <- function(track, seqs, bin_id) {
@@ -278,22 +301,42 @@ add_link_focus_scaffold <- function(track, seqs) {
   scaffold <- seqs %>%
     ungroup() %>%
     select(
-      seq_id = "seq_id", bin_id = "bin_id", locus_id = "locus_id", y = "y", .seq_strand = "strand", .seq_x = "x",
-      .seq_start = "start", .seq_end = "end"
+      seq_id = "seq_id",
+      bin_id = "bin_id",
+      locus_id = "locus_id",
+      y = "y",
+      .seq_strand = "strand",
+      .seq_x = "x",
+      .seq_start = "start",
+      .seq_end = "end"
     )
   scaffold2 <- seqs %>%
     ungroup() %>%
     select(
-      seq_id2 = "seq_id", bin_id2 = "bin_id", locus_id2 = "locus_id", yend = "y", .seq_strand2 = "strand", .seq_x2 = "x",
-      .seq_start2 = "start", .seq_end2 = "end"
+      seq_id2 = "seq_id",
+      bin_id2 = "bin_id",
+      locus_id2 = "locus_id",
+      yend = "y",
+      .seq_strand2 = "strand",
+      .seq_x2 = "x",
+      .seq_start2 = "start",
+      .seq_end2 = "end"
     )
 
-  track <- inner_join(track, scaffold, by = shared_names(track, "seq_id", "bin_id", "locus_id"))
-  track <- inner_join(track, scaffold2, by = shared_names(track, "seq_id2", "bin_id2", "locus_id2"))
+  track <- inner_join(track,
+                      scaffold,
+                      by = shared_names(track, "seq_id", "bin_id", "locus_id"))
+  track <- inner_join(track,
+                      scaffold2,
+                      by = shared_names(track, "seq_id2", "bin_id2", "locus_id2"))
   track
 }
 
-compute_loci <- function(x, locus_id, locus_id_group, locus_score, locus_filter, ...) {
+compute_loci <- function(x,
+                         locus_id,
+                         locus_id_group,
+                         locus_score,
+                         locus_filter, ...) {
   index_loci(x, ...) %>%
     dplyr::group_by(.data$seq_id, .data$i) %>%
     dplyr::summarize(
@@ -314,7 +357,8 @@ index_loci <- function(x, max_dist = 10e3) {
     dplyr::arrange(.data$start) %>%
     dplyr::group_by(.data$seq_id) %>%
     dplyr::mutate(
-      i = cumsum(pmin(.data$start, .data$end) - dplyr::lag(pmax(.data$start, .data$end), default = FALSE) > max_dist),
+      i = cumsum(pmin(.data$start, .data$end) -
+                   dplyr::lag(pmax(.data$start, .data$end), default = FALSE) > max_dist),
       i = if (min(.data$i) < 1) {
         .data$i + 1
       } else {

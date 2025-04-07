@@ -47,4 +47,4 @@ Suggests:
     Hmisc,
     knitr,
     ggrepel,
-    IRanges,
+    IRanges

@@ -101,7 +101,7 @@ layout_feats <- function(
 #' @return feat_layout without unwanted features
 #' @export
 drop_feat_layout <- function(x, keep = "strand") {
-  drop <- c("y", "x", "xend", "strand", grep("^\\.", names(x), value = T))
+  drop <- c("y", "x", "xend", "strand", grep("^\\.", names(x), value = TRUE))
   drop <- drop[!drop %in% keep]
   purrr::discard(x, names(x) %in% drop)
 }

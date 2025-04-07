@@ -122,10 +122,13 @@ qc <- function(...) sapply(match.call()[-1], deparse)
 # CRAN Workaround for unexported useful tidyverse internals
 # https://stackoverflow.com/questions/32535773/using-un-exported-function-from-another-r-package
 ggplot2__ggname <- utils::getFromNamespace("ggname", "ggplot2")
-ggplot2__rd_aesthetics <- function(x, y) utils::getFromNamespace("rd_aesthetics", "ggplot2")(x, y) |> stringr::str_replace(stringr::fixed("link[="), "link[ggplot2:")
+ggplot2__rd_aesthetics <- function(x, y) {
+  utils::getFromNamespace("rd_aesthetics", "ggplot2")(x, y) |>
+    stringr::str_replace(stringr::fixed("link[="), "link[ggplot2:")
+}
 ggplot2__scales_list <- utils::getFromNamespace("scales_list", "ggplot2")
 ggplot2__guides_list <- utils::getFromNamespace("guides_list", "ggplot2")
 ggplot2__make_labels <- utils::getFromNamespace("make_labels", "ggplot2")
 scales__force_all <- utils::getFromNamespace("force_all", "scales")
-purrr__as_mapper.default <- utils::getFromNamespace("as_mapper.default", "purrr")
-
+purrr__as_mapper.default <- utils::getFromNamespace("as_mapper.default",
+                                                    "purrr")

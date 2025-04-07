@@ -47,7 +47,9 @@ in_range_impl <- function(x, min, max, closed = c(TRUE, TRUE)) {
     min <= x & x <= max
   } else if (closed[1]) {
     min <= x & x < max
-  } else if (closed[2]) min < x & x <= max
+  } else if (closed[2]) {
+    min < x & x <= max
+  }
 }
 
 #' The width of a range

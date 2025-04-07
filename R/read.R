@@ -44,7 +44,7 @@ read_context <- function(files, context, .id = "file_id", format = NULL, parser 
   # for unnamed files, infer name from filename (used as file_id/bin_id)
   files <- file_label(files)
 
-  parser <- parser %||% file_parser(files, context = context, format = format, require_unique = T)
+  parser <- parser %||% file_parser(files, context = context, format = format, require_unique = TRUE)
   # map_df .id = bin_id
   inform(str_glue("Reading '{names(parser)}' with `{parser}()`:"))
   x <- purrr::map2_df(files, names(files),
